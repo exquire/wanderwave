@@ -30,13 +30,15 @@ int ledState = LOW; // ledState used to control the LED.
 unsigned long curTime = 0;
 unsigned long lastSwitch = 0; // Used to store the last time the LED was status changed
 
+int notesOn = 0; // Keep track of how many notes are current on
+
 
 void setup() {
   // put your setup code here, to run once:
     pinMode(ledPin, OUTPUT); // set the digital pin as output
 
     startMozzi(CONTROL_RATE); // set a control rate of 64
-    int frequency = 25; // Initialises a variable to 25, we'll change it with keyboard presses
+    int frequency = 0; // Initialises a variable to 25, we'll change it with keyboard presses
 
     MIDI.setHandleNoteOn(handleNoteOn);
     MIDI.setHandleNoteOff(handleNoteOff);
@@ -62,11 +64,18 @@ void handleNoteOn(byte inChannel, byte inNote, byte inVelocity)
     int frequency = sNotePitches[inNote];
     aSin.setFreq(frequency); // Sets the frequency to be dependent on the note we press.
     Serial.print(String(inNote) + "\n");  
+    notesOn++; // Add 1 to our track of how many keys are pressed
 }
 
 void handleNoteOff(byte inChannel, byte inNote, byte inVelocity)
 {
   Serial.print(String(inNote) + "\n");
+  notesOn-- ; // Decrease our track of how many keys are pressed by one
+  if ( notesOn == 0 ) {
+  int frequency = 0; // Set the frequency to cheating off
+  aSin.setFreq(frequency);  
+  }
+  
 }
 
 void loop() {
