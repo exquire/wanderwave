@@ -1,4 +1,4 @@
-// Flappy Hoses program, built peice by peice
+// Flappy Hoses program. Also know as wanderwave 
 
 // Include libraries
 // Mozzi Libs
