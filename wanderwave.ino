@@ -65,6 +65,7 @@ void handleNoteOn(byte inChannel, byte inNote, byte inVelocity)
     aSin.setFreq(frequency); // Sets the frequency to be dependent on the note we press.
     Serial.print(String(inNote) + "\n");  
     notesOn++; // Add 1 to our track of how many keys are pressed
+    digitalWrite(ledPin, HIGH); // Turn on the light
 }
 
 void handleNoteOff(byte inChannel, byte inNote, byte inVelocity)
@@ -74,6 +75,7 @@ void handleNoteOff(byte inChannel, byte inNote, byte inVelocity)
   if ( notesOn == 0 ) {
   int frequency = 0; // Set the frequency to cheating off
   aSin.setFreq(frequency);  
+  digitalWrite(ledPin, LOW); // Turn off the light
   }
   
 }
@@ -88,7 +90,7 @@ void loop() {
   
   // Here is my re-write to change the style to having a different time for on and off
   // We first need to determine if the LED is currently on or off and then decide if we need to switch
-  curTime = mozziMicros(); // Set a time var for us to work with, keeps things a little cleaner
+  // curTime = mozziMicros(); // Set a time var for us to work with, keeps things a little cleaner
 
   
 //  if (ledState == LOW) { // if led is off
@@ -96,6 +98,7 @@ void loop() {
 //      lastSwitch = curTime; // Reset the previous switch counter to right now
 //      digitalWrite(ledPin, HIGH); // Turn on the light
 //      ledState = HIGH; // Set the var to what we now have
+//      Serial.print("Changed LED state to HIGH\n");
 //      
 //    }
 //  } 
@@ -104,7 +107,8 @@ void loop() {
 //      lastSwitch = curTime; // Reset the previous switch counter to right now
 //      digitalWrite(ledPin, LOW);  // Turn off the light
 //      ledState = LOW; // Set the var to what we now have
-      
+//      Serial.print("Changed LED state to LOW\n");
+//      
 //    }
 //  }
 
