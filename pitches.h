@@ -70,12 +70,12 @@
 
 
 //Standard (unshifted) keys on Axiom 49
-#define NOTE_C2  1
+#define NOTE_C2  0
 #define NOTE_CS2 2
-#define NOTE_D2  3
+#define NOTE_D2  0
 #define NOTE_DS2 4
-#define NOTE_E2  5
-#define NOTE_F2  6
+#define NOTE_E2  0
+#define NOTE_F2  0
 #define NOTE_FS2 7
 #define NOTE_G2  8
 #define NOTE_GS2 9

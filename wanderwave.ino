@@ -96,12 +96,16 @@ int notesOn = 0; // Keep track of how many notes are current on
 void handleNoteOn(byte inChannel, byte inNote, byte inVelocity) {
     if ( inNote == led1.note ) {
         led1.notePressed = 1; 
+        Serial.print("led1 key has been pressed\n");
     } else if ( inNote == led2.note ) { 
         led2.notePressed = 1; 
+        Serial.print("led1 key has been pressed\n");
     } else if ( inNote == led3.note ) { 
         led3.notePressed = 1; 
+        Serial.print("led1 key has been pressed\n");
     } else if ( inNote == led4.note ) { 
         led4.notePressed = 1; 
+        Serial.print("led1 key has been pressed\n");
     } else { // Else control frequency generated
     int frequency = sNotePitches[inNote];
     aSin.setFreq(frequency); // Sets the frequency to be dependent on the note we press.
