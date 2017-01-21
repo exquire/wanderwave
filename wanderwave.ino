@@ -145,6 +145,11 @@ void setup() {
 
     // Note: Set your serial baud rate to 31250 as this has to match midi...
     Serial.print("Starting output of midi signals...\n");
+    Serial.print("LED1 control key: " + string(led1.note) + "\n");
+    Serial.print("LED2 control key: " + string(led2.note) + "\n");
+    Serial.print("LED3 control key: " + string(led3.note) + "\n");
+    Serial.print("LED4 control key: " + string(led4.note) + "\n");
+    
 } // End setup
 
 void updateControl() {
