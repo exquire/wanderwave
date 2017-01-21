@@ -16,13 +16,13 @@ MIDI_CREATE_DEFAULT_INSTANCE();
 int notesOn = 0; // Keep track of how many notes are current on
 
 void handleNoteOn(byte inChannel, byte inNote, byte inVelocity) {
-    if ( inNote == "NOTE_C2" ) {
+    if ( inNote == '0' ) {
         //
-    } else if ( inNote == "NOTE_D2" ) { 
+    } else if ( inNote == '2' ) { 
        //
-    } else if ( inNote == "NOTE_E2" ) { 
+    } else if ( inNote == '4' ) { 
         //
-    } else if ( inNote == "NOTE_F2" ) { 
+    } else if ( inNote == '5' ) { 
         //
     } else { // Else control frequency generated
     int frequency = sNotePitches[inNote];
@@ -32,13 +32,13 @@ void handleNoteOn(byte inChannel, byte inNote, byte inVelocity) {
 } // End handleNoteOn
 
 void handleNoteOff(byte inChannel, byte inNote, byte inVelocity) {
-  if ( inNote == "NOTE_C2" ) {
+  if ( inNote == '0' ) {
     //
-  } else if ( inNote == "NOTE_D2" ) { 
+  } else if ( inNote == '2' ) { 
     //
-  } else if ( inNote == "NOTE_E2" ) { 
+  } else if ( inNote == '4' ) { 
     //
-  } else if ( inNote == "NOTE_F2" ) { 
+  } else if ( inNote == '5' ) { 
     //
   } else {
   notesOn-- ; // Decrease our track of how many keys are pressed by one - Lights don't count

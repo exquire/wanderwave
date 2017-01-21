@@ -2,7 +2,6 @@
 
 //Midi Libs
 #include <MIDI.h>
-#include "pitches.h"
 MIDI_CREATE_DEFAULT_INSTANCE();
 
 //------------------------------------------------------------------
@@ -15,10 +14,6 @@ unsigned int flashCount = 20;
 // 1 second = 1,000 milliseconds
 const long onTime = 20; 
 
-// Calculate our flash offTime
-unsigned long totalOnTime = onTime * flashCount;
-unsigned long totalOffTime = 1000000 - totalOnTime;
-unsigned long offTime = totalOffTime / flashCount;
 
 //------------------------------------------------------------------
 // Define our ledControl class
@@ -29,16 +24,18 @@ class ledControl {
     // Private vars only used by the class
     private:
     unsigned long ledLastSwitch;
-    unsigned int ledPin;
+    
     unsigned long OnTime;
     unsigned long ledOffTime;
     unsigned long flashCount;
     unsigned long totalOnTime;
     unsigned long totalOffTime;
+    unsigned long offTime;
     unsigned long curTime;
 
     // Public vars to be shared with the rest of the code
     public:
+    unsigned int ledPin;
     char note;
     unsigned int ledState;
     unsigned int notePressed;
@@ -90,28 +87,30 @@ class ledControl {
 //------------------------------------------------------------------
 
 // input vars are (pin, note, onTime, flashCount)
-ledControl led1(10,'NOTE_C2',onTime, flashCount);
-ledControl led2(11,'NOTE_D2',onTime, flashCount);
-ledControl led3(12,'NOTE_E2',onTime, flashCount);
-ledControl led4(13,'NOTE_F2',onTime, flashCount);
+ledControl led1(10,'0',onTime, flashCount);
+ledControl led2(11,'2',onTime, flashCount);
+ledControl led3(12,'4',onTime, flashCount);
+ledControl led4(13,'5',onTime, flashCount);
 
 //------------------------------------------------------------------
 // Leave below as is please!
 //------------------------------------------------------------------
 
 void handleNoteOn(byte inChannel, byte inNote, byte inVelocity) {
+    Serial.print(String(inNote));
+    Serial.print("\n");
     if ( inNote == led1.note ) {
         led1.notePressed = 1; 
         Serial.print("led1 key has been pressed\n");
     } else if ( inNote == led2.note ) { 
         led2.notePressed = 1; 
-        Serial.print("led1 key has been pressed\n");
+        Serial.print("led2 key has been pressed\n");
     } else if ( inNote == led3.note ) { 
         led3.notePressed = 1; 
-        Serial.print("led1 key has been pressed\n");
+        Serial.print("led3 key has been pressed\n");
     } else if ( inNote == led4.note ) { 
         led4.notePressed = 1; 
-        Serial.print("led1 key has been pressed\n");
+        Serial.print("led4 key has been pressed\n");
     } 
 } // End handleNoteOn
 
@@ -119,15 +118,19 @@ void handleNoteOff(byte inChannel, byte inNote, byte inVelocity) {
   if ( inNote == led1.note ) {
     led1.notePressed = 0;
     led1.ledState = LOW;
+    digitalWrite(led1.ledPin, led1.ledState);
   } else if ( inNote == led2.note ) { 
     led2.notePressed = 0;
     led2.ledState = LOW;
+    digitalWrite(led2.ledPin, led2.ledState);
   } else if ( inNote == led3.note ) { 
     led3.notePressed = 0;
     led3.ledState = LOW;
+    digitalWrite(led3.ledPin, led3.ledState);
   } else if ( inNote == led4.note ) { 
     led4.notePressed = 0;
     led4.ledState = LOW;
+    digitalWrite(led4.ledPin, led4.ledState);
   }  
 } // End handleNoteOff
 
@@ -138,9 +141,13 @@ void setup() {
 
     // Note: Set your serial baud rate to 31250 as this has to match midi...
     Serial.print("Starting output of midi signals...\n");
+    Serial.print("led1 note: ");
     Serial.print(led1.note);
+    Serial.print("\n led2 note: ");
     Serial.print(led2.note);
+    Serial.print("\n led3 note: ");
     Serial.print(led3.note);
+    Serial.print("\n led4 note: ");
     Serial.print(led4.note);
     
 } // End setup
