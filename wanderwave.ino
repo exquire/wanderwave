@@ -25,10 +25,9 @@ const long onTime = 2000;
 unsigned int flashCount = 20;
 
 // Calculate our flash offTime
-    // First work out duration of on per second
-    unsigned long totalOnTime = onTime * flashCount;
-    unsigned long totalOffTime = 1000000 - totalOnTime;
-    unsigned long offTime = totalOffTime / flashCount;
+unsigned long totalOnTime = onTime * flashCount;
+unsigned long totalOffTime = 1000000 - totalOnTime;
+unsigned long offTime = totalOffTime / flashCount;
 
 //------------------------------------------------------------------
 // Define our ledControl class
@@ -36,15 +35,14 @@ unsigned int flashCount = 20;
 
 class ledControl {
 
-    // Class member vars
-    // Initialised at startup
-
+    // Private vars only used by the class
     private:
     unsigned long ledLastSwitch;
     int ledPin;
     long ledOnTime;
     long ledOffTime;
 
+    // Public vars to be shared with the rest of the code
     public:
     char note;
     int ledState;
@@ -63,6 +61,7 @@ class ledControl {
       ledOffTime = _ledOffTime;
     }
 
+    // Function for switching on and off the light for this channel
     void flashSwitch() {
       unsigned long curTime = mozziMicros();
       
@@ -76,13 +75,13 @@ class ledControl {
         digitalWrite(ledPin, ledState);
       }
     }
-};
+}; // End definition of ledControl class
 
 //------------------------------------------------------------------
 // Configure each LED channel here
 //------------------------------------------------------------------
 
-// input vars are pin, note, onTime, offTime
+// input vars are (pin, note, onTime, offTime)
 ledControl led1(10,'NOTE_C2',onTime, offTime);
 ledControl led2(11,'NOTE_D2',onTime, offTime);
 ledControl led3(12,'NOTE_E2',onTime, offTime);
@@ -95,53 +94,44 @@ ledControl led4(13,'NOTE_F2',onTime, offTime);
 int notesOn = 0; // Keep track of how many notes are current on
 
 void handleNoteOn(byte inChannel, byte inNote, byte inVelocity) {
-    if ( inNote == led1.note ) {// Turn on LED1
-        led1.notePressed = 1;
-    } else if ( inNote == led2.note ) { // Turn on LED2
-        led2.notePressed = 1;
-    } else if ( inNote == led3.note ) { // Turn on LED3
-        led3.notePressed = 1;
-    } else if ( inNote == led4.note ) { // Turn on LED4
-        led4.notePressed = 1;
+    if ( inNote == led1.note ) {
+        led1.notePressed = 1; 
+    } else if ( inNote == led2.note ) { 
+        led2.notePressed = 1; 
+    } else if ( inNote == led3.note ) { 
+        led3.notePressed = 1; 
+    } else if ( inNote == led4.note ) { 
+        led4.notePressed = 1; 
     } else { // Else control frequency generated
     int frequency = sNotePitches[inNote];
     aSin.setFreq(frequency); // Sets the frequency to be dependent on the note we press.
-    //Serial.print(String(inNote) + "\n");  
-    notesOn++; // Add 1 to our track of how many keys are pressed
-    //digitalWrite(led1Pin, HIGH); // Turn on the light
+    notesOn++; // Add 1 to our track of how many keys are pressed - Lights don't count
     }
-}
+} // End handleNoteOn
 
 void handleNoteOff(byte inChannel, byte inNote, byte inVelocity) {
-  if ( inNote == led1.note ) { // Turn off LED1
+  if ( inNote == led1.note ) {
     led1.notePressed = 0;
     led1.ledState = LOW;
-  } else if ( inNote == led2.note ) { // Turn off LED2
+  } else if ( inNote == led2.note ) { 
     led2.notePressed = 0;
     led2.ledState = LOW;
-  } else if ( inNote == led3.note ) { // Turn off LED3
+  } else if ( inNote == led3.note ) { 
     led3.notePressed = 0;
     led3.ledState = LOW;
-  } else if ( inNote == led4.note ) { // Turn off LED4
+  } else if ( inNote == led4.note ) { 
     led4.notePressed = 0;
     led4.ledState = LOW;
   } else {
-  //Serial.print(String(inNote) + "\n");
-  notesOn-- ; // Decrease our track of how many keys are pressed by one
+  notesOn-- ; // Decrease our track of how many keys are pressed by one - Lights don't count
   if ( notesOn == 0 ) {
-  int frequency = 0; // Set the frequency to cheating off
-  aSin.setFreq(frequency);  
-  //digitalWrite(led1Pin, LOW); // Turn off the light
+  int frequency = 0; // Set the frequency to 0Hz
+  aSin.setFreq(frequency); 
     }
   }
-}
+} // End handleNoteOff
 
 void setup() {
-//    pinMode(led1Pin, OUTPUT); // set the digital pin as output for LED1
-//    pinMode(led2Pin, OUTPUT); // set the digital pin as output for LED2
-//    pinMode(led3Pin, OUTPUT); // set the digital pin as output for LED3
-//    pinMode(led4Pin, OUTPUT); // set the digital pin as output for LED4
-
     startMozzi(CONTROL_RATE); // set a control rate of 64
     int frequency = 0; // Initialises a variable to 0, we'll change it with keyboard presses
 
@@ -149,13 +139,9 @@ void setup() {
     MIDI.setHandleNoteOff(handleNoteOff);
     MIDI.begin();
 
-    //Serial.begin(9600);
+    // Note: Set your serial baud rate to 31250 as this has to match midi...
     Serial.print("Starting output of midi signals...\n");
-
-    
-
-   
-}
+} // End setup
 
 void updateControl() {
       // This part is apparently needed by Mozzi
@@ -167,9 +153,13 @@ int updateAudio() {
 
 
 
-
 void loop() {
-  // put your main code here, to run repeatedly:
+
+    //------------------------------------------------------------------
+  // Begin MIDI control
+  //------------------------------------------------------------------
+
+  MIDI.read();
 
   //------------------------------------------------------------------
   // Begin LED control
@@ -193,11 +183,5 @@ void loop() {
   //------------------------------------------------------------------
 
   audioHook(); // Runs our sinewave generation
-
-  //------------------------------------------------------------------
-  // Begin MIDI control
-  //------------------------------------------------------------------
-
-  MIDI.read();
 
 }
