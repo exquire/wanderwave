@@ -38,17 +38,20 @@ class ledControl {
 
     // Class member vars
     // Initialised at startup
+
+    private:
+    unsigned long ledLastSwitch;
     int ledPin;
-    char note;
     long ledOnTime;
     long ledOffTime;
-    // Maintain current state
+
+    public:
+    char note;
     int ledState;
-    //int notePressed;
-    unsigned long ledLastSwitch;
+    int notePressed;
+    
 
     // Constructor - creates an ledControl
-    public:
     ledControl(int _pin, char _note, long _ledOnTime, long _ledOffTime) {
       ledPin = _pin;
       pinMode(ledPin, OUTPUT);
@@ -110,7 +113,7 @@ void handleNoteOn(byte inChannel, byte inNote, byte inVelocity) {
 }
 
 void handleNoteOff(byte inChannel, byte inNote, byte inVelocity) {
-  if ( inNote == led1.ledNote ) { // Turn off LED1
+  if ( inNote == led1.note ) { // Turn off LED1
     led1.notePressed = 0;
     led1.ledState = LOW;
   } else if ( inNote == led2.note ) { // Turn off LED2
@@ -181,7 +184,7 @@ void loop() {
   if ( led3.notePressed == 1 ) {
     led3.flashSwitch();
   } 
-  if ( led4.notePRessed == 1 ) {
+  if ( led4.notePressed == 1 ) {
     led4.flashSwitch();
   }
 
