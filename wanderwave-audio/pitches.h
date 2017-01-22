@@ -105,7 +105,7 @@
 #define NOTE_AS8 62
 #define NOTE_B8  76
 #define NOTE_C9  80
-// End of keyboard
+// End of keyboard.
 
 
 
