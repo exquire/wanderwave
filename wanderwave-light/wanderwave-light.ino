@@ -158,16 +158,16 @@ void loop() {
     if (( globalLedState == LOW ) && ( curTime - ledLastSwitch >= offTime )) {
       globalLedState = HIGH;
       ledLastSwitch = curTime;
-      if ( led1.notePressed = 1 ) {
+      if ( led1.notePressed == 1 ) {
         led1.switchLedState(HIGH);
       }
-      if ( led2.notePressed = 1 ) {
+      if ( led2.notePressed == 1 ) {
         led2.switchLedState(HIGH);
       }
-      if ( led3.notePressed = 1 ) {
+      if ( led3.notePressed == 1 ) {
         led3.switchLedState(HIGH);
       }
-      if ( led4.notePressed = 1 ) {
+      if ( led4.notePressed == 1 ) {
         led4.switchLedState(HIGH);
       }
     }
@@ -175,16 +175,16 @@ void loop() {
     if (( globalLedState == HIGH) && ( curTime - ledLastSwitch >= onTime )) {
       globalLedState = LOW;
       ledLastSwitch = curTime;
-      if ( led1.notePressed = 1 ) {
+      if ( led1.notePressed == 1 ) {
         led1.switchLedState(LOW);
       }
-      if ( led2.notePressed = 1 ) {
+      if ( led2.notePressed == 1 ) {
         led2.switchLedState(LOW);
       }
-      if ( led3.notePressed = 1 ) {
+      if ( led3.notePressed == 1 ) {
         led3.switchLedState(LOW);
       }
-      if ( led4.notePressed = 1 ) {
+      if ( led4.notePressed == 1 ) {
         led4.switchLedState(LOW);
       }
     }
