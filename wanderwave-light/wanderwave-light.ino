@@ -72,12 +72,16 @@ void handleNoteOn(byte inChannel, byte inNote, byte inVelocity) {
     Serial.print("\n");
     if ( inNote == led1.note ) {
         led1.notePressed = 1; 
+        Serial.write("led1 key pressed\n");
     } else if ( inNote == led2.note ) { 
         led2.notePressed = 1; 
+        Serial.write("led2 key pressed\n");
     } else if ( inNote == led3.note ) { 
         led3.notePressed = 1; 
+        Serial.write("led3 key pressed\n");
     } else if ( inNote == led4.note ) { 
         led4.notePressed = 1; 
+        Serial.write("led4 key pressed\n");
     } 
 } // End handleNoteOn
 
@@ -85,15 +89,19 @@ void handleNoteOff(byte inChannel, byte inNote, byte inVelocity) {
   if ( inNote == led1.note ) {
     led1.notePressed = 0;
     led1.switchLedState(LOW);
+    Serial.write("led1 key released\n");
   } else if ( inNote == led2.note ) { 
     led2.notePressed = 0;
     led2.switchLedState(LOW);
+    Serial.write("led2 key released\n");
   } else if ( inNote == led3.note ) { 
     led3.notePressed = 0;
     led3.switchLedState(LOW);
+    Serial.write("led3 key released\n");
   } else if ( inNote == led4.note ) { 
     led4.notePressed = 0;
     led4.switchLedState(LOW);
+    Serial.write("led4 key released\n");
   }  
 } // End handleNoteOff
 
@@ -122,6 +130,10 @@ void setup() {
     Serial.print("\n");
 
     // Make sure the lights are off when we start:
+    led1.notePressed = 0;
+    led2.notePressed = 0;
+    led3.notePressed = 0;
+    led4.notePressed = 0;
     led1.switchLedState(LOW);
     led2.switchLedState(LOW);
     led3.switchLedState(LOW);
